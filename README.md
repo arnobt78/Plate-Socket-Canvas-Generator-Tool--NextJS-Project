@@ -1,6 +1,8 @@
-# R24 - Plate & Socket Generator - Next.js Technical Assessment Project
+# Plate, Socket & Canvas Generator Tool - Next.js Project (Technical Assessment)
 
 A comprehensive, interactive German electrical plate and socket configuration tool built with Next.js 14. This project implements a sophisticated drag-and-drop interface for designing custom electrical plate layouts with real-time validation, responsive design, and precise centimeter-based positioning.
+
+- **Live-Demo:** [https://plate-socket-generator-tool.vercel.app/](https://plate-socket-generator-tool.vercel.app/)
 
 ---
 
