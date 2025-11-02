@@ -80,7 +80,7 @@ If no valid plates exist to add a socket group, show an error and do not proceed
 All blocked actions must provide clear visual feedback explaining the reason.
 
 Summary of Constraints
-Plate width: 20–300 cm Plate height: 30–128 cm Min size for sockets: 40x40 cm Socket size: 7x7 cm Socket count per group: 1–5 Gap between sockets: 0.2 cm Min distance from plate edge: 3 cm Min distance from other socket groups: 4 cm Plates must scale to fit canvas Canvas is responsive and mobile-friendly Socket positioning supports both drag and input Guidelines show live distance from left and bottom edges during drag All sockets and plates are validated before any change is applied
+Plate width: 20–300 cmPlate height: 30–128 cmMin size for sockets: 40x40 cmSocket size: 7x7 cmSocket count per group: 1–5Gap between sockets: 0.2 cmMin distance from plate edge: 3 cmMin distance from other socket groups: 4 cmPlates must scale to fit canvasCanvas is responsive and mobile-friendlySocket positioning supports both drag and inputGuidelines show live distance from left and bottom edges during dragAll sockets and plates are validated before any change is applied
 
-Socket image url:
-<https://cdn.shopify.com/s/files/1/0514/2511/6352/files/steckdose_1.png?v=1738943041>
+Socket image:
+![Socket Image](https://cdn.shopify.com/s/files/1/0514/2511/6352/files/steckdose_1.png?v=1738943041)

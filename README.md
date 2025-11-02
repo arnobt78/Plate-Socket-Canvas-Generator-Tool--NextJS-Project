@@ -4,10 +4,9 @@ A comprehensive, interactive German electrical plate and socket configuration to
 
 - **Live-Demo:** [https://plate-socket-generator-tool.vercel.app/](https://plate-socket-generator-tool.vercel.app/)
 
-<img width="1904" height="856" alt="Screenshot 2025-11-02 at 14 26 49" src="https://github.com/user-attachments/assets/a6ecf70c-af51-4ab7-954c-e1b2372cd569" />
-<img width="1914" height="864" alt="Screenshot 2025-11-02 at 14 22 59" src="https://github.com/user-attachments/assets/4b87ce21-28f7-4544-8af3-8406ecc5eb3e" />
-<img width="1657" height="753" alt="Screenshot 2025-11-02 at 14 31 29" src="https://github.com/user-attachments/assets/bede4acb-839c-4bda-891f-86cdfe0998a6" />
-<img width="607" height="411" alt="socket-diagram-with-measurent" src="https://github.com/user-attachments/assets/c08864d8-2ddd-4645-b21e-4f091bbf4254" />
+![Screenshot 2025-11-02 at 14 26 49](https://github.com/user-attachments/assets/a6ecf70c-af51-4ab7-954c-e1b2372cd569)
+![Screenshot 2025-11-02 at 14 22 59](https://github.com/user-attachments/assets/4b87ce21-28f7-4544-8af3-8406ecc5eb3e)
+![Screenshot 2025-11-02 at 14 31 29](https://github.com/user-attachments/assets/bede4acb-839c-4bda-891f-86cdfe0998a6)
 
 ## 📋 Table of Contents
 
