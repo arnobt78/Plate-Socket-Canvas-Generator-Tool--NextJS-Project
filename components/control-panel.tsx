@@ -1054,97 +1054,103 @@ export default function ControlPanel({
                 </>
               )}
 
-              {/* Reused stacked circles indicator before configured list */}
-              <div className="relative md:ml-0 md:h-0 mt-2">
-                <div className="absolute left-[0px] md:left-[-40px] top-0">
-                  <StackedIndicator number={6} />
-                </div>
-              </div>
-
               {/* Configured socket groups - Always show when socketToggle is true */}
-              {socketGroups.length > 0 && (
-                <div className={`mt-4 ${!isEditingSocket ? "" : ""}`}>
-                  <p className="text-md text-gray-700 font-medium mb-2">
-                    Konfigurierte Steckdosen bestätigen
-                  </p>
-                  {socketGroups.map((sg, idx) => {
-                    const plate = plates.find((p) => p.id === sg.plateId);
-                    const isSelected = selectedSocketGroup?.id === sg.id;
-                    return (
-                      <div
-                        key={sg.id}
-                        onClick={() => {
-                          // When not editing, clicking the item displays it on canvas
-                          if (!isEditingSocket) {
-                            handleSocketGroupView(sg.id);
-                          }
-                        }}
-                        className={`flex items-center justify-between p-3 transition-colors border rounded-lg mb-2 cursor-pointer ${
-                          isSelected && !isEditingSocket
-                            ? "bg-green-50 hover:bg-green-100 border-green-300"
-                            : "bg-gray-50 hover:bg-gray-100 border-gray-200"
-                        }`}
-                      >
-                        <div className="text-md font-medium">
-                          <span className="text-gray-700">
-                            {idx + 1}. Rückwand - {plate?.width} x{" "}
-                            {plate?.height}
-                          </span>
-                          <span className="text-gray-300">{" | "}</span>
-                          <span className="text-gray-700">
-                            {sg.count} x Steckdose
-                          </span>
-                          <span className="text-gray-500"> + 20.00 €</span>
-                        </div>
-
-                        <div className="flex gap-1">
-                          {/* Task Requirement: Edit/Delete socket groups */}
-                          {selectedSocketGroup?.id === sg.id &&
-                          isEditingSocket ? (
-                            <Button
-                              size="sm"
-                              variant="destructive"
-                              onClick={(e) => {
-                                e.stopPropagation(); // Prevent triggering parent onClick
-                                handleDeleteClick(sg);
-                              }}
-                              className="h-8 px-3 text-xs rounded-lg"
-                              title="Delete"
-                            >
-                              <Minus className="h-3 w-3 mr-1" />
-                              Delete
-                            </Button>
-                          ) : (
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              onClick={(e) => {
-                                e.stopPropagation(); // Prevent triggering parent onClick
-                                handleSocketGroupSelection(sg.id);
-                              }}
-                              className="h-8 w-8 p-0 rounded-lg hover:bg-gray-200"
-                              title="Edit"
-                            >
-                              <MoreVertical className="h-4 w-4" />
-                            </Button>
-                          )}
-                        </div>
+              {(() => {
+                // Filter socket groups to only include those with existing plates
+                const validSocketGroups = socketGroups.filter((sg) =>
+                  plates.some((p) => p.id === sg.plateId)
+                );
+                // Only show section if there are valid socket groups
+                return validSocketGroups.length > 0 ? (
+                  <div className={`mt-4 ${!isEditingSocket ? "" : ""}`}>
+                    {/* Reused stacked circles indicator before configured list */}
+                    <div className="relative md:ml-0 md:h-0 mt-2">
+                      <div className="absolute left-[0px] md:left-[-40px] top-0">
+                        <StackedIndicator number={6} />
                       </div>
-                    );
-                  })}
+                    </div>
+                    <p className="text-md text-gray-700 font-medium mb-2">
+                      Konfigurierte Steckdosen bestätigen
+                    </p>
+                    {validSocketGroups.map((sg, idx) => {
+                      const plate = plates.find((p) => p.id === sg.plateId);
+                      const isSelected = selectedSocketGroup?.id === sg.id;
+                      return (
+                        <div
+                          key={sg.id}
+                          onClick={() => {
+                            // When not editing, clicking the item displays it on canvas
+                            if (!isEditingSocket) {
+                              handleSocketGroupView(sg.id);
+                            }
+                          }}
+                          className={`flex items-center justify-between p-3 transition-colors border rounded-lg mb-2 cursor-pointer ${
+                            isSelected && !isEditingSocket
+                              ? "bg-green-50 hover:bg-green-100 border-green-300"
+                              : "bg-gray-50 hover:bg-gray-100 border-gray-200"
+                          }`}
+                        >
+                          <div className="text-md font-medium">
+                            <span className="text-gray-700">
+                              {idx + 1}. Rückwand - {plate?.width} x{" "}
+                              {plate?.height}
+                            </span>
+                            <span className="text-gray-300">{" | "}</span>
+                            <span className="text-gray-700">
+                              {sg.count} x Steckdose
+                            </span>
+                            <span className="text-gray-500"> + 20.00 €</span>
+                          </div>
 
-                  {/* Add socket group button */}
-                  <div className="flex justify-end mt-4 mb-4">
-                    <Button
-                      onClick={handleAddSocketGroup}
-                      size={undefined}
-                      className="w-fit h-auto px-6 py-2.5 bg-green-50 border-2 border-green-300 text-green-500 font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors hover:bg-green-200 hover:text-green-600 shadow-lg active:bg-green-300 active:text-green-700"
-                    >
-                      Steckdose hinzufügen
-                    </Button>
+                          <div className="flex gap-1">
+                            {/* Task Requirement: Edit/Delete socket groups */}
+                            {selectedSocketGroup?.id === sg.id &&
+                            isEditingSocket ? (
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={(e) => {
+                                  e.stopPropagation(); // Prevent triggering parent onClick
+                                  handleDeleteClick(sg);
+                                }}
+                                className="h-8 px-3 text-xs rounded-lg"
+                                title="Delete"
+                              >
+                                <Minus className="h-3 w-3 mr-1" />
+                                Delete
+                              </Button>
+                            ) : (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={(e) => {
+                                  e.stopPropagation(); // Prevent triggering parent onClick
+                                  handleSocketGroupSelection(sg.id);
+                                }}
+                                className="h-8 w-8 p-0 rounded-lg hover:bg-gray-200"
+                                title="Edit"
+                              >
+                                <MoreVertical className="h-4 w-4" />
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    {/* Add socket group button */}
+                    <div className="flex justify-end mt-4 mb-4">
+                      <Button
+                        onClick={handleAddSocketGroup}
+                        size={undefined}
+                        className="w-fit h-auto px-6 py-2.5 bg-green-50 border-2 border-green-300 text-green-500 font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors hover:bg-green-200 hover:text-green-600 shadow-lg active:bg-green-300 active:text-green-700"
+                      >
+                        Steckdose hinzufügen
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              )}
+                ) : null;
+              })()}
             </>
           )}
         </div>
