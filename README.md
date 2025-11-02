@@ -5,25 +5,23 @@ A comprehensive, interactive German electrical plate and socket configuration to
 - **Live-Demo:** [https://plate-socket-generator-tool.vercel.app/](https://plate-socket-generator-tool.vercel.app/)
 
 ![Screenshot 2025-11-02 at 14 26 49](https://github.com/user-attachments/assets/a6ecf70c-af51-4ab7-954c-e1b2372cd569)
-![Screenshot 2025-11-02 at 14 22 59](https://github.com/user-attachments/assets/4b87ce21-28f7-4544-8af3-8406ecc5eb3e)
-![Screenshot 2025-11-02 at 14 31 29](https://github.com/user-attachments/assets/bede4acb-839c-4bda-891f-86cdfe0998a6)
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
-- [Installation & Setup](#installation--setup)
-- [Usage Guide](#usage-guide)
-- [Technical Implementation](#technical-implementation)
-- [Task Requirements](#task-requirements)
-- [Component Architecture](#component-architecture)
-- [Key Algorithms](#key-algorithms)
-- [Development](#development)
-- [Deployment](#deployment)
-- [Keywords](#keywords)
-- [Author Information](#author-information)
+- [Overview](#-overview)
+- [Features](#-features)
+- [Technology Stack](#️-technology-stack)
+- [Project Structure](#-project-structure)
+- [Installation & Setup](#-installation--setup)
+- [Usage Guide](#-usage-guide)
+- [Technical Implementation](#-technical-implementation)
+- [Task Requirements](#-task-requirements)
+- [Component Architecture](#️-component-architecture)
+- [Key Algorithms](#-key-algorithms)
+- [Development](#-development)
+- [Deployment](#-deployment)
+- [Keywords](#️-keywords)
+- [Author Information](#-author-information)
 
 ---
 

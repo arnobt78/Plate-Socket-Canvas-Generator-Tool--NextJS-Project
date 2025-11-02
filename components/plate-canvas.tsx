@@ -112,14 +112,14 @@ const PlateCanvas = forwardRef<HTMLDivElement, PlateCanvasProps>(
 
       // Calculate position of first socket's bottom-left corner
       // The anchor is at 3.5cm from left edge of first socket, so first socket left = positionX - 3.5
-      // The anchor is at 3.5cm from bottom edge of first socket, so first socket bottom = positionY + 3.5
-      const firstSocketBottom = socketGroup.positionY + ANCHOR_OFFSET_CM;
+      // The anchor is at 3.5cm from bottom edge of first socket, so first socket bottom = positionY - 3.5
+      const firstSocketBottom = socketGroup.positionY - ANCHOR_OFFSET_CM;
 
       return {
         // 'left' property: distance from left edge to first socket's left edge
         x: (socketGroup.positionX - ANCHOR_OFFSET_CM) * scale,
         // 'bottom' property: distance from bottom edge to group's bottom edge
-        // Group's bottom = first socket's bottom = positionY + 3.5
+        // Group's bottom = first socket's bottom = positionY - 3.5
         y: firstSocketBottom * scale,
       };
     };

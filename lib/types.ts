@@ -134,27 +134,52 @@ export const validateSocketPosition = (
   // Anchor point is at 3.5cm from both left and bottom edges of the 7x7cm first socket
   // positionX and positionY are distances from plate edges TO the anchor point
   const ANCHOR_OFFSET_CM = 3.5;
-  
+
   // Calculate the actual position of the socket group's boundaries
   // Anchor is at positionX from left and positionY from bottom
   // First socket's left edge = positionX - ANCHOR_OFFSET_CM (3.5cm left of anchor)
-  // First socket's bottom edge = positionY + ANCHOR_OFFSET_CM (3.5cm down from anchor)
+  // First socket's bottom edge = positionY - ANCHOR_OFFSET_CM (3.5cm up from anchor)
   // Group's left edge = first socket's left edge
   // Group's bottom edge = first socket's bottom edge
   // Group's right edge = first socket's left edge + groupWidth
   // Group's top edge = first socket's bottom edge + groupHeight
   const groupLeftX = positionX - ANCHOR_OFFSET_CM;
-  const groupBottomY = positionY + ANCHOR_OFFSET_CM;
+  const groupBottomY = positionY - ANCHOR_OFFSET_CM;
   const groupRightX = groupLeftX + groupWidth;
   const groupTopY = groupBottomY + groupHeight;
 
   // Check if socket group fits within plate bounds
   // Task Requirement: "Socket groups must be at least 3 cm from plate edges"
   // Logic: Check if socket group is at least 3 cm from plate edges
-  if (groupLeftX < MIN_EDGE_DISTANCE || groupBottomY < MIN_EDGE_DISTANCE) {
+  if (groupLeftX < MIN_EDGE_DISTANCE) {
+    const minAllowedGroupLeftX = MIN_EDGE_DISTANCE;
+    const minAllowedPositionX = minAllowedGroupLeftX + ANCHOR_OFFSET_CM;
     return {
       valid: false,
-      error: `Steckdosengruppen müssen mindestens ${MIN_EDGE_DISTANCE} cm von den Rückwandrändern entfernt sein`,
+      error: `Steckdosengruppe zu nah am linken Rand. Minimale Position von links: ${minAllowedPositionX.toFixed(
+        1
+      )} cm (Rückwandbreite: ${plate.width.toFixed(
+        1
+      )} cm, Steckdosengruppenbreite: ${groupWidth.toFixed(
+        1
+      )} cm, Mindestabstand: ${MIN_EDGE_DISTANCE} cm)`,
+      positionX,
+      positionY,
+    };
+  }
+
+  if (groupBottomY < MIN_EDGE_DISTANCE) {
+    const minAllowedGroupBottomY = MIN_EDGE_DISTANCE;
+    const minAllowedPositionY = minAllowedGroupBottomY + ANCHOR_OFFSET_CM;
+    return {
+      valid: false,
+      error: `Steckdosengruppe zu nah am unteren Rand. Minimale Position von unten: ${minAllowedPositionY.toFixed(
+        1
+      )} cm (Rückwandhöhe: ${plate.height.toFixed(
+        1
+      )} cm, Steckdosengruppenhöhe: ${groupHeight.toFixed(
+        1
+      )} cm, Mindestabstand: ${MIN_EDGE_DISTANCE} cm)`,
       positionX,
       positionY,
     };
@@ -184,7 +209,8 @@ export const validateSocketPosition = (
   if (groupTopY > plate.height - MIN_EDGE_DISTANCE) {
     const maxAllowedGroupTopY = plate.height - MIN_EDGE_DISTANCE;
     const maxAllowedGroupBottomY = maxAllowedGroupTopY - groupHeight;
-    const maxAllowedPositionY = maxAllowedGroupBottomY - ANCHOR_OFFSET_CM;
+    // Anchor is 3.5cm above socket bottom, so positionY = groupBottomY + 3.5
+    const maxAllowedPositionY = maxAllowedGroupBottomY + ANCHOR_OFFSET_CM;
     return {
       valid: false,
       error: `Steckdosengruppe überschreitet die Rückwandhöhe. Maximale Position von unten: ${maxAllowedPositionY.toFixed(
@@ -221,13 +247,13 @@ export const validateSocketPosition = (
     // Rectangle 1: current group (socketGroup) - using bottom-left coordinate system
     const r1Left = positionX - ANCHOR_OFFSET_CM;
     const r1Right = r1Left + groupWidth;
-    const r1Bottom = positionY + ANCHOR_OFFSET_CM;
+    const r1Bottom = positionY - ANCHOR_OFFSET_CM;
     const r1Top = r1Bottom + groupHeight;
 
     // Rectangle 2: other group (other) - using bottom-left coordinate system
     const r2Left = other.positionX - ANCHOR_OFFSET_CM;
     const r2Right = r2Left + otherWidth;
-    const r2Bottom = other.positionY + ANCHOR_OFFSET_CM;
+    const r2Bottom = other.positionY - ANCHOR_OFFSET_CM;
     const r2Top = r2Bottom + otherHeight;
 
     // Calculate horizontal distance (x-axis)
@@ -258,7 +284,9 @@ export const validateSocketPosition = (
     if (totalDistance < MIN_GROUP_DISTANCE) {
       return {
         valid: false,
-        error: `Steckdosengruppen müssen mindestens ${MIN_GROUP_DISTANCE} cm voneinander entfernt sein`,
+        error: `Steckdosengruppen müssen mindestens ${MIN_GROUP_DISTANCE} cm voneinander entfernt sein. Aktueller Abstand: ${totalDistance.toFixed(
+          1
+        )} cm (Mindestabstand: ${MIN_GROUP_DISTANCE} cm)`,
         positionX,
         positionY,
       };

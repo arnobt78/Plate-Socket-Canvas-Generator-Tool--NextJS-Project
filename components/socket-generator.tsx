@@ -50,6 +50,14 @@ const DEFAULT_PLATES: Plate[] = [
   { id: "2", width: 200, height: 100 },
 ];
 
+// Default socket group position
+// Task Requirement: "Socket groups must be at least 3 cm from plate edges"
+// Task Requirement: "The anchor point is the bottom-left center of the first socket"
+// Logic: Anchor point is 3.5cm inside the socket (center of 7x7cm socket)
+// For socket edge to be exactly 3cm from plate edge: anchor must be at 3.0 + 3.5 = 6.5cm from plate edges
+const DEFAULT_SOCKET_POSITION_X = MIN_EDGE_DISTANCE + 3.5; // 6.5 cm
+const DEFAULT_SOCKET_POSITION_Y = MIN_EDGE_DISTANCE + 3.5; // 6.5 cm
+
 export default function SocketGenerator() {
   // Task Requirement: "The app must maintain realistic proportions between plates and sockets, support user input, and be responsive across different screen sizes including mobile."
   // Task Requirement: "On load, generate a default plate with predefined dimensions."
@@ -587,14 +595,14 @@ export default function SocketGenerator() {
         // Logic: Check if the first valid plate is found.
         if (firstValidPlate) {
           // Task Requirement: "The app must maintain realistic proportions between plates and sockets, support user input, and be responsive across different screen sizes including mobile."
-          // Logic: Create a new socket group.
+          // Logic: Create a new socket group with default position that ensures 3cm minimum distance from plate edges.
           const newSocketGroup: SocketGroup = {
             id: Date.now().toString(),
             plateId: firstValidPlate.id,
             count: 1,
             direction: "vertical",
-            positionX: MIN_EDGE_DISTANCE,
-            positionY: MIN_EDGE_DISTANCE,
+            positionX: DEFAULT_SOCKET_POSITION_X,
+            positionY: DEFAULT_SOCKET_POSITION_Y,
           };
           // Task Requirement: "The app must maintain realistic proportions between plates and sockets, support user input, and be responsive across different screen sizes including mobile."
           // Logic: Set the socket groups.
@@ -607,8 +615,8 @@ export default function SocketGenerator() {
           // Logic: Set the socket count.
           setSocketCount(1);
           setSocketDirection("vertical");
-          setPositionX(MIN_EDGE_DISTANCE.toString());
-          setPositionY(MIN_EDGE_DISTANCE.toString());
+          setPositionX(DEFAULT_SOCKET_POSITION_X.toString());
+          setPositionY(DEFAULT_SOCKET_POSITION_Y.toString());
         }
       }
     } else {
@@ -926,6 +934,11 @@ export default function SocketGenerator() {
       const deletedPlate = plates.find((p) => p.id === plateId);
       const plateNumber = plates.findIndex((p) => p.id === plateId) + 1;
 
+      // Find socket groups that belong to this plate BEFORE deletion
+      const deletedSocketGroups = socketGroups.filter(
+        (sg) => sg.plateId === plateId
+      );
+
       // Task Requirement: "The app must maintain realistic proportions between plates and sockets, support user input, and be responsive across different screen sizes including mobile."
       // Logic: Remove the plates.
       setPlates((prev) => prev.filter((p) => p.id !== plateId));
@@ -937,12 +950,26 @@ export default function SocketGenerator() {
         setSelectedSocketGroup(null);
       }
 
-      // Show success toast notification with plate details
+      // Show success toast notification with plate details and socket group information
       if (deletedPlate) {
+        let description = `Rückwand #${plateNumber}: ${deletedPlate.width.toFixed(
+          1
+        )} × ${deletedPlate.height.toFixed(1)} cm wurde entfernt`;
+
+        // If socket groups existed on this plate, include them in the toast
+        if (deletedSocketGroups.length > 0) {
+          const socketGroupsText = deletedSocketGroups
+            .map((sg, idx) => {
+              return `${idx + 1}. Rückwand - ${deletedPlate.width.toFixed(
+                1
+              )} × ${deletedPlate.height.toFixed(1)} | ${sg.count} × Steckdose`;
+            })
+            .join(", ");
+          description += `. ${deletedSocketGroups.length} Steckdosengruppe(n) aus "Konfigurierte Steckdosen bestätigen" entfernt: ${socketGroupsText}`;
+        }
+
         toast.success("Rückwand gelöscht", {
-          description: `Rückwand #${plateNumber}: ${deletedPlate.width.toFixed(
-            1
-          )} × ${deletedPlate.height.toFixed(1)} cm wurde entfernt`,
+          description,
         });
       }
     } else {
@@ -1027,8 +1054,8 @@ export default function SocketGenerator() {
     // Reset all configuration fields to default values
     setSocketCount(1);
     setSocketDirection("vertical");
-    setPositionX(MIN_EDGE_DISTANCE.toString());
-    setPositionY(MIN_EDGE_DISTANCE.toString());
+    setPositionX(DEFAULT_SOCKET_POSITION_X.toString());
+    setPositionY(DEFAULT_SOCKET_POSITION_Y.toString());
     // Clear any previous error messages
     setErrorMessage("");
 
@@ -1162,8 +1189,8 @@ export default function SocketGenerator() {
     setSelectedPlate(validPlateForReset?.id || "");
     setSocketCount(1);
     setSocketDirection("vertical");
-    setPositionX(MIN_EDGE_DISTANCE.toString());
-    setPositionY(MIN_EDGE_DISTANCE.toString());
+    setPositionX(DEFAULT_SOCKET_POSITION_X.toString());
+    setPositionY(DEFAULT_SOCKET_POSITION_Y.toString());
 
     // Keep isEditingSocket = true so user can continue adding more sockets immediately
     // User can click "Steckdose hinzufügen" when they're done editing to hide the edit UI
@@ -1227,7 +1254,7 @@ export default function SocketGenerator() {
 
     // Calculate position of first socket's bottom-left corner
     const firstSocketLeft = socketGroup.positionX - ANCHOR_OFFSET_CM;
-    const firstSocketBottom = socketGroup.positionY + ANCHOR_OFFSET_CM;
+    const firstSocketBottom = socketGroup.positionY - ANCHOR_OFFSET_CM;
 
     return {
       // 'left' property: distance from left edge
