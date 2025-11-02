@@ -993,7 +993,7 @@ export default function ControlPanel({
                               <div className="relative">
                                 <Input
                                   type="text"
-                                  placeholder="3.0"
+                                  placeholder="6.5"
                                   value={positionX}
                                   onChange={(e) =>
                                     handlePositionXChange(e.target.value)
@@ -1017,7 +1017,7 @@ export default function ControlPanel({
                               <div className="relative">
                                 <Input
                                   type="text"
-                                  placeholder="3.0"
+                                  placeholder="6.5"
                                   value={positionY}
                                   onChange={(e) =>
                                     handlePositionYChange(e.target.value)
