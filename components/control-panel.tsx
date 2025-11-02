@@ -614,6 +614,7 @@ export default function ControlPanel({
                           <div className="relative">
                             <Input
                               type="text"
+                              placeholder="40.0"
                               value={plateInputs[plate.id]?.width || ""}
                               onFocus={() => {
                                 setSelectedPlateInput(`${plate.id}-width`);
@@ -661,6 +662,7 @@ export default function ControlPanel({
                           <div className="relative">
                             <Input
                               type="text"
+                              placeholder="40.0"
                               value={plateInputs[plate.id]?.height || ""}
                               onFocus={() => {
                                 setSelectedPlateInput(`${plate.id}-height`);
@@ -718,13 +720,14 @@ export default function ControlPanel({
 
           {/* Add plate item button */}
           <div className="flex justify-end mt-4 mb-8">
-            <button
+            <Button
               onClick={addPlate}
-              className="w-fit px-6 py-2.5 bg-green-50 border-2 border-green-300 text-green-500 font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors hover:bg-green-200 hover:text-green-600 shadow-lg active:bg-green-300 active:text-green-700"
+              size={undefined}
+              className="w-fit h-auto px-6 py-2.5 bg-green-50 border-2 border-green-300 text-green-500 font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors hover:bg-green-200 hover:text-green-600 shadow-lg active:bg-green-300 active:text-green-700"
             >
               Rückwand hinzufügen
               <Plus className="h-4 w-4 stroke-[3] text-green-500 hover:text-green-600 transition-colors" />
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -1040,7 +1043,8 @@ export default function ControlPanel({
                       <div className="flex justify-end mt-4 mb-8">
                         <Button
                           onClick={handleConfirmSocketGroup}
-                          className="w-fit px-6 py-2.5 bg-green-50 border-2 border-green-300 text-green-500 font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors hover:bg-green-200 hover:text-green-600 shadow-lg active:bg-green-300 active:text-green-700"
+                          size={undefined}
+                          className="w-fit h-auto px-6 py-2.5 bg-green-50 border-2 border-green-300 text-green-500 font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors hover:bg-green-200 hover:text-green-600 shadow-lg active:bg-green-300 active:text-green-700"
                         >
                           Steckdose bestätigen
                         </Button>
@@ -1133,7 +1137,8 @@ export default function ControlPanel({
                   <div className="flex justify-end mt-4 mb-4">
                     <Button
                       onClick={handleAddSocketGroup}
-                      className="w-fit px-6 py-2.5 bg-green-50 border-2 border-green-300 text-green-500 font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors hover:bg-green-200 hover:text-green-600 shadow-lg active:bg-green-300 active:text-green-700"
+                      size={undefined}
+                      className="w-fit h-auto px-6 py-2.5 bg-green-50 border-2 border-green-300 text-green-500 font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors hover:bg-green-200 hover:text-green-600 shadow-lg active:bg-green-300 active:text-green-700"
                     >
                       Steckdose hinzufügen
                     </Button>

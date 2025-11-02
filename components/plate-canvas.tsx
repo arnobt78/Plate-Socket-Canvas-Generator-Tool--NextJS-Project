@@ -384,36 +384,48 @@ const PlateCanvas = forwardRef<HTMLDivElement, PlateCanvasProps>(
                     })}
                   </div>
                   {/* Plate dimensions label */}
-                  <div className="text-xs text-gray-400">
-                    Rückwand {plates.findIndex((p) => p.id === plate.id) + 1}:{" "}
-                    {plate.width.toFixed(1)} x {plate.height.toFixed(1)} cm
-                  </div>
+                  {/* When selectedPlate is set, show "Rückwand" prefix only for selected plate */}
+                  {/* When selectedPlate is empty, show all plates without "Rückwand" prefix */}
+                  {(!selectedPlate || selectedPlate === plate.id) && (
+                    <div className="text-xs text-gray-400">
+                      {selectedPlate === plate.id ? "Rückwand " : ""}
+                      {plates.findIndex((p) => p.id === plate.id) + 1}:{" "}
+                      {plate.width.toFixed(1)} x {plate.height.toFixed(1)} cm
+                    </div>
+                  )}
                   {/* Socket group positions - only show when single plate is selected */}
                   {isSinglePlate && plateSocketGroups.length > 0 && (
-                    <div className="mt-2 max-h-32 overflow-y-auto space-y-1">
-                      {plateSocketGroups.map((sg, idx) => {
-                        const isDragging = dragState?.socketGroupId === sg.id;
-                        // Use live drag values if dragging, otherwise use stored position values
-                        const positionX =
-                          isDragging && dragState?.liveDistanceX !== undefined
-                            ? dragState.liveDistanceX
-                            : sg.positionX;
-                        const positionY =
-                          isDragging && dragState?.liveDistanceY !== undefined
-                            ? dragState.liveDistanceY
-                            : sg.positionY;
-                        return (
-                          <div
-                            key={sg.id}
-                            className={`text-[10px] sm:text-xs text-gray-400 ${
-                              isDragging ? "text-green-400 font-semibold" : ""
-                            }`}
-                          >
-                            Steckdosengr. {idx + 1}: X: {positionX.toFixed(1)}{" "}
-                            cm | Y: {positionY.toFixed(1)} cm
-                          </div>
-                        );
-                      })}
+                    <div className="mt-2">
+                      {/* Title for socket groups */}
+                      <div className="text-[10px] sm:text-xs text-gray-400 font-medium text-center mb-1">
+                        Steckdosengr.
+                      </div>
+                      {/* List of socket group positions */}
+                      <div className="max-h-32 overflow-y-auto space-y-1 text-center">
+                        {plateSocketGroups.map((sg, idx) => {
+                          const isDragging = dragState?.socketGroupId === sg.id;
+                          // Use live drag values if dragging, otherwise use stored position values
+                          const positionX =
+                            isDragging && dragState?.liveDistanceX !== undefined
+                              ? dragState.liveDistanceX
+                              : sg.positionX;
+                          const positionY =
+                            isDragging && dragState?.liveDistanceY !== undefined
+                              ? dragState.liveDistanceY
+                              : sg.positionY;
+                          return (
+                            <div
+                              key={sg.id}
+                              className={`text-[10px] sm:text-xs text-gray-400 ${
+                                isDragging ? "text-green-400 font-semibold" : ""
+                              }`}
+                            >
+                              {idx + 1}: X: {positionX.toFixed(1)} cm | Y:{" "}
+                              {positionY.toFixed(1)} cm
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   )}
                 </div>

@@ -931,6 +931,12 @@ export default function SocketGenerator() {
       setPlates((prev) => prev.filter((p) => p.id !== plateId));
       setSocketGroups((prev) => prev.filter((sg) => sg.plateId !== plateId));
 
+      // If the deleted plate was selected, reset selection to show all plates
+      if (selectedPlate === plateId) {
+        setSelectedPlate("");
+        setSelectedSocketGroup(null);
+      }
+
       // Show success toast notification with plate details
       if (deletedPlate) {
         toast.success("Rückwand gelöscht", {
@@ -1015,8 +1021,9 @@ export default function SocketGenerator() {
   const handleAddSocketGroup = () => {
     // Reset selection to allow adding a NEW socket group (not editing an existing one)
     setSelectedSocketGroup(null);
-    // Find the first valid plate (40x40cm or larger) to set as default selection
-    setSelectedPlate(plates.find(isPlateLargeEnoughForSockets)?.id || "");
+    // Reset selectedPlate to empty string to show all plates (like toggle-on behavior)
+    // This displays all plates with socket groups on canvas instead of a single selected plate
+    setSelectedPlate("");
     // Reset all configuration fields to default values
     setSocketCount(1);
     setSocketDirection("vertical");
@@ -1790,10 +1797,9 @@ export default function SocketGenerator() {
 
       {/* Mobile/Tablet sidebar overlay from right */}
       <div
-        className={`xl:hidden fixed top-0 right-0 h-full z-50 overflow-x-hidden transition-transform duration-300 ease-out bg-white text-black shadow-2xl ${
+        className={`xl:hidden fixed top-0 right-0 h-full z-50 overflow-x-hidden transition-transform duration-300 ease-out bg-white text-black shadow-2xl w-[80vw] ${
           isSidebarOpen ? "translate-x-0" : "translate-x-full"
         }`}
-        style={{ width: "80vw" }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="h-full overflow-y-auto">

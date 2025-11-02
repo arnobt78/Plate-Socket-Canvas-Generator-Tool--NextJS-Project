@@ -115,6 +115,59 @@
     }
   }
 
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-30px) rotate(5deg);
+    }
+  }
+
+  @keyframes gradientPulse {
+    0%,
+    100% {
+      color: #f42f5f;
+      transform: scale(1);
+      opacity: 0.6;
+      filter: drop-shadow(0 0 2rem rgba(244, 47, 95, 0.4));
+    }
+    50% {
+      color: #fe8d5c;
+      transform: scale(1.15);
+      opacity: 1;
+      filter: drop-shadow(0 0 4rem rgba(254, 141, 92, 0.6));
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .animate-gradient-pulse {
+    animation: gradientPulse 3s ease-in-out infinite;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+
+  .animate-cursor-blink {
+    animation: cursorBlink 1s step-end infinite;
+  }
+
   /* Sonner Toast Custom Styling */
   [data-sonner-toast][data-type="success"] {
     background-color: rgb(240 253 244) !important; /* bg-green-50 */
